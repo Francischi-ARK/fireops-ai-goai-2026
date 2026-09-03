@@ -19,9 +19,7 @@ FireOps AI 面向工厂、仓库、学校、医院和商业综合体的消防管
 
 ## 复赛材料
 
-PPT、PDF、77.17 秒演示视频、周报、答辩稿和数据合规说明已整理为白名单压缩包：
-
-[下载 GOAI 2026 复赛 v7 材料包](https://github.com/Francischi-ARK/fireops-ai-goai-2026/releases/tag/semifinal-v7)
+公开站提供可运行 Demo，以及页面内的周报和战评 Word 导出。PPT、PDF、77.17 秒演示视频、答辩稿和数据合规说明已在本地整理为经过白名单校验的提交包，由参赛者上传至赛事官方入口，不放入代码仓库。
 
 ## 本地查看
 
