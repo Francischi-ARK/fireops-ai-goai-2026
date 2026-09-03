@@ -4021,6 +4021,7 @@ function startJudgeTour() {
     restore: {
       role: activeRoleId, hash: location.hash || "#/home",
       incident: structuredClone(incidentBackend), copilot: structuredClone(copilotState), monitoring: structuredClone(monitoringState), radioCommand: structuredClone(radioCommandState),
+      dynamicIssues: structuredClone(dynamicIssues),
       selectedCompanyId, selectedIssueId, selectedSignalEventId, selectedIncidentId, selectedInboxId, terminalStationId, terminalOwnerName, rectificationEvidence,
     },
   };
@@ -4041,6 +4042,7 @@ function stopJudgeTour() {
   copilotState = restore.copilot;
   monitoringState = restore.monitoring;
   radioCommandState = restore.radioCommand;
+  dynamicIssues = restore.dynamicIssues;
   ({ selectedCompanyId, selectedIssueId, selectedSignalEventId, selectedIncidentId, selectedInboxId, terminalStationId, terminalOwnerName, rectificationEvidence } = restore);
   setActiveRole(restore.role);
   renderJudgeTourController();
@@ -4069,7 +4071,10 @@ function bindJudgeTourControls() {
     const action = event.target.closest("[data-judge-summary-action]")?.dataset.judgeSummaryAction;
     if (!action) return;
     document.querySelector("#judge-tour-summary").close();
-    if (action === "restart") return setJudgeTourStep(0);
+    if (action === "restart") {
+      stopJudgeTour();
+      return startJudgeTour();
+    }
     if (action === "exit") stopJudgeTour();
   });
 }
