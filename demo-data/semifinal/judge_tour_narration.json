@@ -1,0 +1,97 @@
+{
+  "schema_version": "fireops-judge-narration/v1",
+  "data_boundary": "固定合成演示文案；不连接真实设备、119 或外部系统",
+  "tone": "当前操作角色在向评审现场讲解自己的操作，口语化，不作广告宣传",
+  "items": [
+    {
+      "step_id": "overview",
+      "speaker": "公司管理层",
+      "narration": "全厂火警、巡查隐患、维保工单汇到这一屏。红色高亮处是电池车间刚接入的报警，我们从这里开始。",
+      "watch_for": "3D 总览中高亮的电池车间"
+    },
+    {
+      "step_id": "alarm",
+      "speaker": "消控室值班员",
+      "narration": "主机信号进来，系统定位到电池车间 2F 的 PACK 产线。我先进入车间平面，核对报警点、室外集结点和车间入口。",
+      "watch_for": "2D 报警点位、室外集结点与推荐入口"
+    },
+    {
+      "step_id": "analysis",
+      "speaker": "消控室值班员",
+      "narration": "这里能看到系统实际查过哪些业务资料、采用了哪些信息，以及还有什么没确认。它只起草核实建议，结论仍由值班员和现场人员作出。",
+      "watch_for": "系统处理过程、采用的信息与人工闸门"
+    },
+    {
+      "step_id": "verification",
+      "speaker": "防火巡查人员",
+      "narration": "巡查员按推荐入口到场，确认发现明火。是不是真火警，到这一步由人定下来。",
+      "watch_for": "待核实报警信号与「巡查反馈真实火警」按钮"
+    },
+    {
+      "step_id": "dispatch",
+      "speaker": "消控室值班员",
+      "narration": "值班员确认调派，专职消防队和电池车间ERT同时收到任务卡、危险源和最佳路线。",
+      "watch_for": "「确认调派」按钮"
+    },
+    {
+      "step_id": "response",
+      "speaker": "专职消防队",
+      "narration": "消防队签收、出动、到场，每步都回传消控室。现在填写现场反馈：明火已扑灭。",
+      "watch_for": "现场反馈输入框"
+    },
+    {
+      "step_id": "feedback",
+      "speaker": "消控室值班员",
+    "narration": "我先启动指挥台。对讲里的火点、ERT、人员和设备反馈会按时间排好；逐项核对后，再由我结束事件。",
+    "watch_for": "实时对讲、关键时间和消防设施状态"
+    },
+    {
+      "step_id": "archive",
+      "speaker": "消控室值班员",
+      "narration": "系统自动汇总出警报告草稿：谁、什么时间、做了什么，全程可回查。",
+      "watch_for": "事件闭环时间线"
+    },
+    {
+      "step_id": "review",
+      "speaker": "公司管理层",
+    "narration": "我在这里看处置时效、参与人员和改进行动，并把结构化战评导出，供会后逐项确认。",
+    "watch_for": "结构化战评 Word 导出"
+    },
+    {
+      "step_id": "false-alarm",
+      "speaker": "消控室值班员",
+      "narration": "第二条链：涂装车间报警，巡查到场确认是误报。登记后故障工单自动进了设施部门待办。",
+      "watch_for": "「登记误报并关闭」按钮"
+    },
+    {
+      "step_id": "maintenance",
+      "speaker": "消防设施部门",
+      "narration": "设施部门审核派发，维保单位修完不能自己关单，必须经设施部门验收才闭环。",
+      "watch_for": "「确认派发」按钮"
+    },
+    {
+      "step_id": "inspection",
+      "speaker": "防火巡查人员",
+      "narration": "第三条链：日常防火巡查。拍照加口述生成隐患草稿，人工确认后才派发整改。",
+      "watch_for": "「新建巡查识别」按钮"
+    },
+    {
+      "step_id": "rectification",
+      "speaker": "车间问题对接人",
+    "narration": "我清除遮挡后上传整改照片。没有照片不能提交；提交后还要等巡查人员复查。",
+    "watch_for": "整改后现场照片与提交按钮"
+    },
+    {
+      "step_id": "reinspection",
+      "speaker": "防火巡查人员",
+      "narration": "巡查员独立复查：证据对得上才关闭，对不上退回重整，防止自改自关。",
+      "watch_for": "「发起专项复查」按钮"
+    },
+    {
+      "step_id": "weekly",
+      "speaker": "公司管理层",
+      "narration": "收尾看周报：火警、巡查、维保三条链汇成一页，哪个车间问题集中一眼能看清。",
+    "watch_for": "「导出正式周报」按钮"
+    }
+  ]
+}

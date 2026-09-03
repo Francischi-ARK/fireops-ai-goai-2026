@@ -1,0 +1,22 @@
+[
+  {
+    "node": "workshop_01",
+    "workshop_id": "ws-01"
+  },
+  {
+    "node": "workshop_02",
+    "workshop_id": "ws-02"
+  },
+  {
+    "node": "workshop_03",
+    "workshop_id": "ws-03"
+  },
+  {
+    "node": "workshop_04",
+    "workshop_id": "ws-04"
+  },
+  {
+    "node": "workshop_05",
+    "workshop_id": "ws-05"
+  }
+]

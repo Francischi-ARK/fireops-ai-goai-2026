@@ -1,0 +1,222 @@
+{
+  "schema": "fireops-semifinal/ops-records/v1",
+  "is_simulation": true,
+  "external_system": "none",
+  "synthetic_notice": "本文件全部为合成演示数据，用于复赛管理看板与周报演示；不包含任何真实企业、人员或事件信息。",
+  "week": {
+    "start": "2026-08-17T00:00:00+08:00",
+    "end": "2026-08-23T23:59:59+08:00"
+  },
+  "operations": {
+    "alarm_trend": [
+      { "day": "一", "received": 1, "false_alarm": 0 },
+      { "day": "二", "received": 2, "false_alarm": 1 },
+      { "day": "三", "received": 0, "false_alarm": 0 },
+      { "day": "四", "received": 1, "false_alarm": 0 },
+      { "day": "五", "received": 1, "false_alarm": 1 },
+      { "day": "六", "received": 0, "false_alarm": 0 },
+      { "day": "日", "received": 0, "false_alarm": 0 }
+    ],
+    "system_interruptions": { "total": 6, "closed": 5, "overdue": 1, "type_breakdown": { "设备故障": 3, "回路离线": 2, "电源故障": 1 }, "duration_buckets": { "2 小时内": 3, "2–8 小时": 2, "8 小时以上": 1 } },
+    "hot_work": { "permits": 18, "monitored": 18, "exceptions": 1, "level_breakdown": { "一级动火": 4, "二级动火": 14 } },
+    "patrol": { "planned": 42, "completed": 40, "findings": 4, "repeat": 1, "weather_sampling": { "planned": 10, "completed": 9, "exceptions": 0 }, "ability_checks": { "sampled": 12, "passed": 11 } },
+    "ert": { "alerts": 3, "participations": 5, "arrival_recorded": 2, "by_workshop": { "电池车间": 2, "涂装车间": 1, "总装车间": 1, "冲压车间": 1 } },
+    "data_quality": { "records": 12, "complete": 9, "missing_confirmation_time": 2, "missing_arrival_time": 1 }
+  },
+  "alarms": [
+    {
+      "id": "ALM-0818-01",
+      "scenario_id": "fire-confirmed",
+      "occurred_at": "2026-08-18T09:12:00+08:00",
+      "closed_at": "2026-08-18T11:40:00+08:00",
+      "status": "closed",
+      "result": "confirmed_fire",
+      "responsible_role": "control_room_operator",
+      "building_id": "b-battery",
+      "workshop_id": "ws-battery",
+      "zone_id": "z-module-cache",
+      "device_point_id": "pt-bat-smoke-01",
+      "category": "smoke",
+      "evidence_refs": ["monitoring_events/FIRE-001", "patrol_report/FIRE-001", "incident_report/FIRE-001"],
+      "closure": {
+        "outcome": "archived",
+        "closed_by_role": "control_room_operator"
+      }
+    },
+    {
+      "id": "ALM-0819-01",
+      "scenario_id": "false-alarm-maintenance",
+      "occurred_at": "2026-08-19T14:05:00+08:00",
+      "closed_at": "2026-08-19T14:35:00+08:00",
+      "status": "closed",
+      "result": "false_alarm",
+      "responsible_role": "control_room_operator",
+      "building_id": "b-painting",
+      "workshop_id": "ws-painting",
+      "zone_id": "z-booth-3",
+      "device_point_id": "pt-pt-smoke-01",
+      "category": "smoke",
+      "evidence_refs": ["monitoring_events/FA-001", "patrol_report/FA-001"],
+      "closure": {
+        "outcome": "dismissed_false_alarm",
+        "closed_by_role": "control_room_operator"
+      },
+      "linked_workorder_id": "WO-001"
+    },
+    {
+      "id": "ALM-0821-01",
+      "scenario_id": null,
+      "occurred_at": "2026-08-21T10:40:00+08:00",
+      "closed_at": "2026-08-21T11:05:00+08:00",
+      "status": "closed",
+      "result": "false_alarm",
+      "responsible_role": "control_room_operator",
+      "building_id": "b-warehouse",
+      "workshop_id": "ws-warehouse",
+      "zone_id": "z-stacker-aisle",
+      "device_point_id": "pt-wh-smoke-01",
+      "category": "smoke",
+      "evidence_refs": ["monitoring_events/FA-002", "patrol_report/FA-002"],
+      "closure": {
+        "outcome": "dismissed_false_alarm",
+        "closed_by_role": "control_room_operator"
+      },
+      "linked_workorder_id": "WO-002"
+    }
+  ],
+  "workorders": [
+    {
+      "id": "WO-001",
+      "scenario_id": "false-alarm-maintenance",
+      "source_alarm_id": "ALM-0819-01",
+      "created_at": "2026-08-19T14:30:00+08:00",
+      "approved_at": "2026-08-19T15:00:00+08:00",
+      "started_at": "2026-08-20T09:00:00+08:00",
+      "submitted_at": "2026-08-20T11:30:00+08:00",
+      "accepted_at": "2026-08-20T14:00:00+08:00",
+      "closed_at": "2026-08-20T14:30:00+08:00",
+      "status": "closed",
+      "responsible_role": "facility_department",
+      "assignee_role": "maintenance_contractor",
+      "building_id": "b-painting",
+      "workshop_id": "ws-painting",
+      "zone_id": "z-booth-3",
+      "device_point_id": "pt-pt-smoke-01",
+      "category": "device_fault",
+      "evidence_refs": ["workorder/WO-001", "workorder/WO-001-test", "workorder/WO-001-acceptance"],
+      "closure": {
+        "outcome": "accepted_closed",
+        "closed_by_role": "facility_department"
+      }
+    },
+    {
+      "id": "WO-002",
+      "scenario_id": null,
+      "source_alarm_id": "ALM-0821-01",
+      "created_at": "2026-08-21T11:00:00+08:00",
+      "approved_at": "2026-08-21T11:30:00+08:00",
+      "started_at": "2026-08-22T09:30:00+08:00",
+      "submitted_at": null,
+      "accepted_at": null,
+      "closed_at": null,
+      "status": "in_progress",
+      "responsible_role": "facility_department",
+      "assignee_role": "maintenance_contractor",
+      "building_id": "b-warehouse",
+      "workshop_id": "ws-warehouse",
+      "zone_id": "z-stacker-aisle",
+      "device_point_id": "pt-wh-smoke-01",
+      "category": "device_fault",
+      "evidence_refs": ["workorder/WO-002"],
+      "closure": null
+    }
+  ],
+  "findings": [
+    {
+      "id": "FND-001",
+      "scenario_id": "inspection-rectification",
+      "plan_id": "PLAN-001",
+      "found_at": "2026-08-18T10:00:00+08:00",
+      "assigned_at": "2026-08-18T10:30:00+08:00",
+      "rectified_at": "2026-08-19T16:00:00+08:00",
+      "reviewed_at": "2026-08-20T09:30:00+08:00",
+      "closed_at": "2026-08-20T09:45:00+08:00",
+      "status": "closed",
+      "review_result": "passed",
+      "responsible_role": "workshop_liaison",
+      "building_id": "b-stamping",
+      "workshop_id": "ws-stamping",
+      "zone_id": "z-control-cabinet",
+      "device_point_id": null,
+      "category": "电气防火",
+      "evidence_refs": ["inspection_plan/PLAN-001", "finding/FND-001", "finding/FND-001-rectification", "finding/FND-001-review"],
+      "closure": {
+        "outcome": "closed_after_pass",
+        "closed_by_role": "fire_patrol"
+      }
+    },
+    {
+      "id": "FND-002",
+      "scenario_id": null,
+      "plan_id": "PLAN-002",
+      "found_at": "2026-08-21T15:00:00+08:00",
+      "assigned_at": "2026-08-21T15:20:00+08:00",
+      "rectified_at": null,
+      "reviewed_at": null,
+      "closed_at": null,
+      "status": "assigned",
+      "review_result": null,
+      "responsible_role": "workshop_liaison",
+      "building_id": "b-painting",
+      "workshop_id": "ws-painting",
+      "zone_id": "z-paint-mix",
+      "device_point_id": null,
+      "category": "应急疏散",
+      "evidence_refs": ["inspection_plan/PLAN-002", "finding/FND-002"],
+      "closure": null
+    },
+    {
+      "id": "FND-003",
+      "scenario_id": null,
+      "plan_id": "PLAN-003",
+      "found_at": "2026-08-20T09:20:00+08:00",
+      "assigned_at": "2026-08-20T09:40:00+08:00",
+      "rectified_at": "2026-08-21T15:10:00+08:00",
+      "reviewed_at": "2026-08-22T10:00:00+08:00",
+      "closed_at": "2026-08-22T10:15:00+08:00",
+      "status": "closed",
+      "review_result": "passed",
+      "responsible_role": "workshop_liaison",
+      "building_id": "b-battery",
+      "workshop_id": "ws-battery",
+      "zone_id": "z-pack-a1",
+      "device_point_id": "pt-bat-hydrant-01",
+      "category": "消防设施",
+      "evidence_refs": ["inspection_plan/PLAN-003", "finding/FND-003", "finding/FND-003-rectification", "finding/FND-003-review"],
+      "closure": {
+        "outcome": "closed_after_pass",
+        "closed_by_role": "fire_patrol"
+      }
+    },
+    {
+      "id": "FND-004",
+      "scenario_id": null,
+      "plan_id": "PLAN-004",
+      "found_at": "2026-08-22T14:20:00+08:00",
+      "assigned_at": "2026-08-22T14:40:00+08:00",
+      "rectified_at": null,
+      "reviewed_at": null,
+      "closed_at": null,
+      "status": "assigned",
+      "review_result": null,
+      "responsible_role": "workshop_liaison",
+      "building_id": "b-assembly",
+      "workshop_id": "ws-assembly",
+      "zone_id": "z-sub-assembly",
+      "device_point_id": null,
+      "category": "建筑防火",
+      "evidence_refs": ["inspection_plan/PLAN-004", "finding/FND-004"],
+      "closure": null
+    }
+  ]
+}

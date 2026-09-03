@@ -1,0 +1,339 @@
+{
+  "schema": "fireops-semifinal/workshop-scenes/v1",
+  "is_simulation": true,
+  "external_system": "none",
+  "data_boundary": "本文件全部为合成演示数据，仅供主线 Three.js 车间级场景渲染使用；不包含任何真实企业的图纸、设备型号参数或生产数据。原料仓区仅在立体仓库场景出现，消防泵房为厂区级设施，不进入任何车间场景。",
+  "coordinate_rule": "场景内坐标沿用归一化 0-100（与 site_spatial.json 一致）；dimensions 为米制渲染尺寸，渲染时按 归一化值/100×尺寸 映射，height 为建筑净高。",
+  "scenes": [
+    {
+      "id": "scene-battery",
+      "building_id": "b-battery",
+      "workshop_id": "ws-battery",
+      "name": "电池车间场景",
+      "layout_profile": "multi_bay_process_line",
+      "dimensions": { "units": "meter", "length": 120, "width": 72, "height": 12 },
+      "floors": [
+        {
+          "floor_id": "f1",
+          "elevation": 0,
+          "height": 6,
+          "structural_zones": [
+            { "id": "scz-bat-fire-formation", "name": "化成甲级防火分区", "kind": "fire_compartment", "coords": { "x": 10, "y": 55, "w": 35, "h": 35 }, "zone_refs": ["z-formation"] },
+            { "id": "scz-bat-blast-pack", "name": "PACK 区防爆隔墙", "kind": "blast_partition", "coords": { "x": 55, "y": 10, "w": 35, "h": 80 }, "zone_refs": ["z-pack-a1", "z-pack-a2"] }
+          ],
+          "equipment": [
+            { "id": "eq-bat-formation-01", "name": "化成分容柜组 A", "type": "formation_cabinet", "zone_id": "z-formation", "coords": { "x": 18, "y": 78 }, "footprint": { "w": 12, "h": 6 } },
+            { "id": "eq-bat-formation-02", "name": "化成分容柜组 B", "type": "formation_cabinet", "zone_id": "z-formation", "coords": { "x": 34, "y": 78 }, "footprint": { "w": 12, "h": 6 } },
+            { "id": "eq-bat-pack-line-01", "name": "PACK 装配线 A1", "type": "pack_assembly_line", "zone_id": "z-pack-a1", "coords": { "x": 72, "y": 72 }, "footprint": { "w": 26, "h": 8 } },
+            { "id": "eq-bat-stacker-01", "name": "模组堆叠机械手 A1", "type": "module_stacking_robot", "zone_id": "z-pack-a1", "coords": { "x": 62, "y": 60 }, "footprint": { "w": 4, "h": 4 } },
+            { "id": "eq-bat-pack-line-02", "name": "PACK 装配线 A2", "type": "pack_assembly_line", "zone_id": "z-pack-a2", "coords": { "x": 72, "y": 26 }, "footprint": { "w": 26, "h": 8 } },
+            { "id": "eq-bat-cache-rack-01", "name": "成品缓存货架", "type": "buffer_rack", "zone_id": "z-finished-cache", "coords": { "x": 24, "y": 24 }, "footprint": { "w": 18, "h": 8 } }
+          ]
+        },
+        {
+          "floor_id": "f2",
+          "elevation": 6,
+          "height": 6,
+          "structural_zones": [
+            { "id": "scz-bat-fire-test", "name": "测试间防火单元", "kind": "fire_compartment", "coords": { "x": 10, "y": 55, "w": 35, "h": 35 }, "zone_refs": ["z-cell-test"] }
+          ],
+          "equipment": [
+            { "id": "eq-bat-tester-01", "name": "充放电测试柜组", "type": "charge_discharge_tester", "zone_id": "z-cell-test", "coords": { "x": 24, "y": 70 }, "footprint": { "w": 16, "h": 6 } },
+            { "id": "eq-bat-module-rack-01", "name": "模组静置货架", "type": "module_rack", "zone_id": "z-module-cache", "coords": { "x": 70, "y": 70 }, "footprint": { "w": 20, "h": 8 } }
+          ]
+        }
+      ],
+      "entrances": [
+        { "door_id": "d-battery-south", "node_id": "bn-bat-door-s", "floor_id": "f1" },
+        { "door_id": "d-battery-east", "node_id": "bn-bat-door-e", "floor_id": "f1" }
+      ],
+      "fire_facilities": [
+        { "resource_id": "fr-bat-01", "floor_id": "f2", "coords": { "x": 30, "y": 62 } },
+        { "resource_id": "fr-bat-02", "floor_id": "f2", "coords": { "x": 62, "y": 60 } }
+      ],
+      "risk_points": [
+        { "hazard_id": "hz-bat-01", "floor_id": "f2", "level": "high", "coords": { "x": 70, "y": 68 } },
+        { "hazard_id": "hz-bat-02", "floor_id": "f1", "level": "medium", "coords": { "x": 26, "y": 72 } }
+      ],
+      "routes": {
+        "nodes": [
+          { "ref": "bn-bat-door-s" },
+          { "ref": "bn-bat-door-e" },
+          { "ref": "bn-bat-hall-f1" },
+          { "ref": "bn-bat-stair-f1" },
+          { "ref": "bn-bat-stair-f2" },
+          { "ref": "bn-bat-stair2-f1" },
+          { "ref": "bn-bat-stair2-f2" },
+          { "ref": "bn-bat-hall-f2" },
+          { "ref": "bn-bat-idoor-formation" },
+          { "ref": "bn-bat-idoor-pack" },
+          { "ref": "bn-bat-idoor-cache" },
+          { "id": "scn-bat-cache-aisle", "kind": "corridor", "name": "成品缓存区通道点", "floor_id": "f1", "coords": { "x": 28, "y": 30 } },
+          { "id": "scn-bat-test-bay", "kind": "corridor", "name": "测试间内通道点", "floor_id": "f2", "coords": { "x": 28, "y": 68 } }
+        ],
+        "edges": [
+          { "from": "bn-bat-door-s", "to": "bn-bat-hall-f1", "bidirectional": true },
+          { "from": "bn-bat-door-e", "to": "bn-bat-hall-f1", "bidirectional": true },
+          { "from": "bn-bat-hall-f1", "to": "bn-bat-stair-f1", "bidirectional": true },
+          { "from": "bn-bat-stair-f1", "to": "bn-bat-stair-f2", "bidirectional": false, "note": "疏散方向向上单向演示" },
+          { "from": "bn-bat-stair-f2", "to": "bn-bat-hall-f2", "bidirectional": true },
+          { "from": "bn-bat-hall-f1", "to": "bn-bat-stair2-f1", "bidirectional": true },
+          { "from": "bn-bat-stair2-f1", "to": "bn-bat-stair2-f2", "bidirectional": false, "note": "疏散方向向上单向演示" },
+          { "from": "bn-bat-stair2-f2", "to": "bn-bat-hall-f2", "bidirectional": true },
+          { "from": "bn-bat-hall-f1", "to": "bn-bat-idoor-formation", "bidirectional": true },
+          { "from": "bn-bat-hall-f1", "to": "bn-bat-idoor-pack", "bidirectional": true },
+          { "from": "bn-bat-hall-f2", "to": "bn-bat-idoor-cache", "bidirectional": true },
+          { "from": "bn-bat-hall-f1", "to": "scn-bat-cache-aisle", "bidirectional": true },
+          { "from": "bn-bat-hall-f2", "to": "scn-bat-test-bay", "bidirectional": true }
+        ]
+      }
+    },
+    {
+      "id": "scene-painting",
+      "building_id": "b-painting",
+      "workshop_id": "ws-painting",
+      "name": "涂装车间场景",
+      "layout_profile": "linear_booth_line",
+      "dimensions": { "units": "meter", "length": 150, "width": 60, "height": 10 },
+      "floors": [
+        {
+          "floor_id": "f1",
+          "elevation": 0,
+          "height": 10,
+          "structural_zones": [
+            { "id": "scz-pt-ex-booth", "name": "喷漆室防爆围护区", "kind": "explosion_proof_enclosure", "coords": { "x": 30, "y": 30, "w": 20, "h": 40 }, "zone_refs": ["z-booth-3"] },
+            { "id": "scz-pt-oven-insulation", "name": "烘干炉隔热结构区", "kind": "thermal_insulation", "coords": { "x": 57, "y": 30, "w": 18, "h": 40 }, "zone_refs": ["z-oven"] },
+            { "id": "scz-pt-mix-fire", "name": "调漆间防火隔间", "kind": "fire_compartment", "coords": { "x": 82, "y": 30, "w": 13, "h": 40 }, "zone_refs": ["z-paint-mix"] }
+          ],
+          "equipment": [
+            { "id": "eq-pt-pretreat-01", "name": "前处理槽体线", "type": "pretreatment_tank", "zone_id": "z-pretreat", "coords": { "x": 14, "y": 50 }, "footprint": { "w": 10, "h": 30 } },
+            { "id": "eq-pt-booth-01", "name": "喷漆室室体 3#", "type": "spray_booth", "zone_id": "z-booth-3", "coords": { "x": 40, "y": 50 }, "footprint": { "w": 14, "h": 24 } },
+            { "id": "eq-pt-robot-01", "name": "喷漆机器人 3#-1", "type": "spray_robot", "zone_id": "z-booth-3", "coords": { "x": 36, "y": 44 }, "footprint": { "w": 3, "h": 3 } },
+            { "id": "eq-pt-robot-02", "name": "喷漆机器人 3#-2", "type": "spray_robot", "zone_id": "z-booth-3", "coords": { "x": 44, "y": 56 }, "footprint": { "w": 3, "h": 3 } },
+            { "id": "eq-pt-oven-01", "name": "烘干炉", "type": "curing_oven", "zone_id": "z-oven", "coords": { "x": 66, "y": 50 }, "footprint": { "w": 12, "h": 28 } },
+            { "id": "eq-pt-pump-01", "name": "输调漆泵组", "type": "paint_circulation_pump", "zone_id": "z-paint-mix", "coords": { "x": 88, "y": 44 }, "footprint": { "w": 6, "h": 4 } }
+          ]
+        }
+      ],
+      "entrances": [
+        { "door_id": "d-paint-west", "node_id": "bn-pt-door-w", "floor_id": "f1" },
+        { "door_id": "d-paint-east", "node_id": "bn-pt-door-e", "floor_id": "f1" }
+      ],
+      "fire_facilities": [
+        { "resource_id": "fr-pt-01", "floor_id": "f1", "coords": { "x": 40, "y": 62 } },
+        { "resource_id": "fr-pt-02", "floor_id": "f1", "coords": { "x": 88, "y": 58 } }
+      ],
+      "risk_points": [
+        { "hazard_id": "hz-pt-01", "floor_id": "f1", "level": "high", "coords": { "x": 88, "y": 48 } },
+        { "hazard_id": "hz-pt-02", "floor_id": "f1", "level": "medium", "coords": { "x": 40, "y": 46 } }
+      ],
+      "routes": {
+        "nodes": [
+          { "ref": "bn-pt-door-w" },
+          { "ref": "bn-pt-door-e" },
+          { "ref": "bn-pt-aisle" },
+          { "ref": "bn-pt-idoor-booth" },
+          { "ref": "bn-pt-idoor-mix" },
+          { "id": "scn-pt-booth-apron", "kind": "corridor", "name": "喷漆室前室通道点", "floor_id": "f1", "coords": { "x": 40, "y": 36 } },
+          { "id": "scn-pt-mix-apron", "kind": "corridor", "name": "调漆间前室通道点", "floor_id": "f1", "coords": { "x": 88, "y": 36 } }
+        ],
+        "edges": [
+          { "from": "bn-pt-door-w", "to": "bn-pt-aisle", "bidirectional": true },
+          { "from": "bn-pt-door-e", "to": "bn-pt-aisle", "bidirectional": true },
+          { "from": "bn-pt-aisle", "to": "bn-pt-idoor-booth", "bidirectional": true },
+          { "from": "bn-pt-aisle", "to": "bn-pt-idoor-mix", "bidirectional": true },
+          { "from": "bn-pt-idoor-booth", "to": "scn-pt-booth-apron", "bidirectional": true },
+          { "from": "bn-pt-idoor-mix", "to": "scn-pt-mix-apron", "bidirectional": true }
+        ]
+      }
+    },
+    {
+      "id": "scene-assembly",
+      "building_id": "b-assembly",
+      "workshop_id": "ws-assembly",
+      "name": "总装车间场景",
+      "layout_profile": "u_shaped_assembly",
+      "dimensions": { "units": "meter", "length": 180, "width": 90, "height": 9 },
+      "floors": [
+        {
+          "floor_id": "f1",
+          "elevation": 0,
+          "height": 9,
+          "structural_zones": [
+            { "id": "scz-asm-main-span", "name": "大跨度钢构主跨", "kind": "structural_bay", "coords": { "x": 15, "y": 55, "w": 70, "h": 37 }, "zone_refs": ["z-main-line", "z-inspection-line"] }
+          ],
+          "equipment": [
+            { "id": "eq-asm-skillet-01", "name": "底盘合装线", "type": "skillet_conveyor", "zone_id": "z-main-line", "coords": { "x": 50, "y": 64 }, "footprint": { "w": 60, "h": 6 } },
+            { "id": "eq-asm-nutrunner-01", "name": "拧紧机群", "type": "nutrunner", "zone_id": "z-main-line", "coords": { "x": 38, "y": 60 }, "footprint": { "w": 6, "h": 4 } },
+            { "id": "eq-asm-sub-01", "name": "分装台车线", "type": "subassembly_bench", "zone_id": "z-sub-assembly", "coords": { "x": 30, "y": 26 }, "footprint": { "w": 20, "h": 10 } },
+            { "id": "eq-asm-dyno-01", "name": "检测转毂试验台", "type": "chassis_dynamometer", "zone_id": "z-test-b2", "coords": { "x": 68, "y": 26 }, "footprint": { "w": 12, "h": 8 } },
+            { "id": "eq-asm-filling-01", "name": "加注设备", "type": "fluid_filling", "zone_id": "z-test-b2", "coords": { "x": 60, "y": 18 }, "footprint": { "w": 5, "h": 4 } },
+            { "id": "eq-asm-inspection-01", "name": "检测线", "type": "inspection_lane", "zone_id": "z-inspection-line", "coords": { "x": 50, "y": 84 }, "footprint": { "w": 60, "h": 5 } }
+          ]
+        },
+        {
+          "floor_id": "f2",
+          "elevation": 5,
+          "height": 4,
+          "structural_zones": [
+            { "id": "scz-asm-mezz", "name": "办公夹层钢结构", "kind": "mezzanine", "coords": { "x": 60, "y": 60, "w": 30, "h": 30 }, "zone_refs": ["z-office-mezz"] }
+          ],
+          "equipment": []
+        }
+      ],
+      "entrances": [
+        { "door_id": "d-asm-north", "node_id": "bn-asm-door-n", "floor_id": "f1" },
+        { "door_id": "d-asm-south", "node_id": "bn-asm-door-s", "floor_id": "f1" }
+      ],
+      "fire_facilities": [
+        { "resource_id": "fr-asm-01", "floor_id": "f1", "coords": { "x": 50, "y": 70 } },
+        { "resource_id": "fr-asm-02", "floor_id": "f1", "coords": { "x": 22, "y": 58 } }
+      ],
+      "risk_points": [
+        { "hazard_id": "hz-asm-01", "floor_id": "f1", "level": "medium", "coords": { "x": 64, "y": 22 } },
+        { "hazard_id": "hz-asm-02", "floor_id": "f1", "level": "low", "coords": { "x": 28, "y": 30 } }
+      ],
+      "routes": {
+        "nodes": [
+          { "ref": "bn-asm-door-n" },
+          { "ref": "bn-asm-door-s" },
+          { "ref": "bn-asm-hall" },
+          { "ref": "bn-asm-stair-f1" },
+          { "ref": "bn-asm-stair-f2" },
+          { "ref": "bn-asm-idoor-main" },
+          { "ref": "bn-asm-idoor-test" },
+          { "id": "scn-asm-main-mid", "kind": "corridor", "name": "总装主线内通道点", "floor_id": "f1", "coords": { "x": 35, "y": 60 } },
+          { "id": "scn-asm-test-bay", "kind": "corridor", "name": "测试区内通道点", "floor_id": "f1", "coords": { "x": 70, "y": 32 } }
+        ],
+        "edges": [
+          { "from": "bn-asm-door-n", "to": "bn-asm-hall", "bidirectional": true },
+          { "from": "bn-asm-door-s", "to": "bn-asm-hall", "bidirectional": true },
+          { "from": "bn-asm-hall", "to": "bn-asm-stair-f1", "bidirectional": true },
+          { "from": "bn-asm-stair-f1", "to": "bn-asm-stair-f2", "bidirectional": true },
+          { "from": "bn-asm-hall", "to": "bn-asm-idoor-main", "bidirectional": true },
+          { "from": "bn-asm-hall", "to": "bn-asm-idoor-test", "bidirectional": true },
+          { "from": "bn-asm-idoor-main", "to": "scn-asm-main-mid", "bidirectional": true },
+          { "from": "bn-asm-idoor-test", "to": "scn-asm-test-bay", "bidirectional": true }
+        ]
+      }
+    },
+    {
+      "id": "scene-stamping",
+      "building_id": "b-stamping",
+      "workshop_id": "ws-stamping",
+      "name": "冲压车间场景",
+      "layout_profile": "heavy_press_row",
+      "dimensions": { "units": "meter", "length": 126, "width": 60, "height": 16 },
+      "floors": [
+        {
+          "floor_id": "f1",
+          "elevation": 0,
+          "height": 16,
+          "structural_zones": [
+            { "id": "scz-stp-foundation", "name": "压力机重型设备基础区", "kind": "heavy_foundation", "coords": { "x": 10, "y": 55, "w": 80, "h": 20 }, "zone_refs": ["z-press-line-a"] },
+            { "id": "scz-stp-trench", "name": "废料地沟区", "kind": "trench", "coords": { "x": 55, "y": 10, "w": 35, "h": 30 }, "zone_refs": ["z-scrap"] }
+          ],
+          "equipment": [
+            { "id": "eq-stp-uncoiler-01", "name": "开卷落料线", "type": "uncoiler_line", "zone_id": "z-press-line-a", "coords": { "x": 16, "y": 65 }, "footprint": { "w": 10, "h": 8 } },
+            { "id": "eq-stp-press-01", "name": "机械压力机 1#", "type": "mechanical_press", "zone_id": "z-press-line-a", "coords": { "x": 32, "y": 65 }, "footprint": { "w": 8, "h": 10 } },
+            { "id": "eq-stp-press-02", "name": "机械压力机 2#", "type": "mechanical_press", "zone_id": "z-press-line-a", "coords": { "x": 46, "y": 65 }, "footprint": { "w": 8, "h": 10 } },
+            { "id": "eq-stp-press-03", "name": "机械压力机 3#", "type": "mechanical_press", "zone_id": "z-press-line-a", "coords": { "x": 60, "y": 65 }, "footprint": { "w": 8, "h": 10 } },
+            { "id": "eq-stp-press-04", "name": "机械压力机 4#", "type": "mechanical_press", "zone_id": "z-press-line-a", "coords": { "x": 74, "y": 65 }, "footprint": { "w": 8, "h": 10 } },
+            { "id": "eq-stp-crane-01", "name": "模具行车", "type": "die_crane", "zone_id": "z-die-store", "coords": { "x": 27, "y": 26 }, "footprint": { "w": 24, "h": 6 } },
+            { "id": "eq-stp-scrap-01", "name": "废料输送线", "type": "scrap_conveyor", "zone_id": "z-scrap", "coords": { "x": 72, "y": 24 }, "footprint": { "w": 24, "h": 5 } },
+            { "id": "eq-stp-cabinet-01", "name": "冲压线控制柜组", "type": "press_control_cabinet", "zone_id": "z-control-cabinet", "coords": { "x": 88, "y": 70 }, "footprint": { "w": 6, "h": 3 } }
+          ]
+        }
+      ],
+      "entrances": [
+        { "door_id": "d-stp-east", "node_id": "bn-stp-door-e", "floor_id": "f1" },
+        { "door_id": "d-stp-north", "node_id": "bn-stp-door-n", "floor_id": "f1" }
+      ],
+      "fire_facilities": [
+        { "resource_id": "fr-stp-01", "floor_id": "f1", "coords": { "x": 50, "y": 70 } },
+        { "resource_id": "fr-stp-02", "floor_id": "f1", "coords": { "x": 90, "y": 64 } }
+      ],
+      "risk_points": [
+        { "hazard_id": "hz-stp-01", "floor_id": "f1", "level": "medium", "coords": { "x": 88, "y": 68 } },
+        { "hazard_id": "hz-stp-02", "floor_id": "f1", "level": "medium", "coords": { "x": 50, "y": 63 } }
+      ],
+      "routes": {
+        "nodes": [
+          { "ref": "bn-stp-door-e" },
+          { "ref": "bn-stp-door-n" },
+          { "ref": "bn-stp-aisle" },
+          { "ref": "bn-stp-idoor-cabinet" },
+          { "id": "scn-stp-die-bay", "kind": "corridor", "name": "模具存放区通道点", "floor_id": "f1", "coords": { "x": 27, "y": 42 } },
+          { "id": "scn-stp-scrap-end", "kind": "corridor", "name": "废料区通道点", "floor_id": "f1", "coords": { "x": 72, "y": 42 } }
+        ],
+        "edges": [
+          { "from": "bn-stp-door-e", "to": "bn-stp-aisle", "bidirectional": true },
+          { "from": "bn-stp-door-n", "to": "bn-stp-aisle", "bidirectional": true },
+          { "from": "bn-stp-aisle", "to": "bn-stp-idoor-cabinet", "bidirectional": true },
+          { "from": "bn-stp-aisle", "to": "scn-stp-die-bay", "bidirectional": true },
+          { "from": "bn-stp-aisle", "to": "scn-stp-scrap-end", "bidirectional": true }
+        ]
+      }
+    },
+    {
+      "id": "scene-warehouse",
+      "building_id": "b-warehouse",
+      "workshop_id": "ws-warehouse",
+      "name": "立体仓库场景",
+      "layout_profile": "high_rack_aisles",
+      "dimensions": { "units": "meter", "length": 96, "width": 54, "height": 24 },
+      "floors": [
+        {
+          "floor_id": "f1",
+          "elevation": 0,
+          "height": 24,
+          "structural_zones": [
+            { "id": "scz-wh-rack-clad", "name": "库架合一结构区", "kind": "rack_clad_structure", "coords": { "x": 30, "y": 12, "w": 42, "h": 78 }, "zone_refs": ["z-stacker-aisle", "z-raw-store", "z-finished-store"] },
+            { "id": "scz-wh-dock", "name": "月台悬挑结构区", "kind": "dock_structure", "coords": { "x": 5, "y": 20, "w": 20, "h": 70 }, "zone_refs": ["z-inbound", "z-outbound"] }
+          ],
+          "equipment": [
+            { "id": "eq-wh-stacker-01", "name": "堆垛机 1#", "type": "stacker_crane", "zone_id": "z-stacker-aisle", "coords": { "x": 37, "y": 40 }, "footprint": { "w": 5, "h": 8 } },
+            { "id": "eq-wh-stacker-02", "name": "堆垛机 2#", "type": "stacker_crane", "zone_id": "z-stacker-aisle", "coords": { "x": 37, "y": 70 }, "footprint": { "w": 5, "h": 8 } },
+            { "id": "eq-wh-rack-raw", "name": "高位货架-原料区", "type": "high_rack", "zone_id": "z-raw-store", "coords": { "x": 61, "y": 72 }, "footprint": { "w": 18, "h": 28 } },
+            { "id": "eq-wh-rack-finished", "name": "高位货架-成品区", "type": "high_rack", "zone_id": "z-finished-store", "coords": { "x": 61, "y": 28 }, "footprint": { "w": 18, "h": 28 } },
+            { "id": "eq-wh-conveyor-01", "name": "入库输送辊道", "type": "roller_conveyor", "zone_id": "z-inbound", "coords": { "x": 15, "y": 74 }, "footprint": { "w": 14, "h": 5 } },
+            { "id": "eq-wh-lift-01", "name": "出库提升机", "type": "pallet_lift", "zone_id": "z-outbound", "coords": { "x": 86, "y": 34 }, "footprint": { "w": 6, "h": 6 } }
+          ]
+        }
+      ],
+      "entrances": [
+        { "door_id": "d-wh-west", "node_id": "bn-wh-door-w", "floor_id": "f1" },
+        { "door_id": "d-wh-east", "node_id": "bn-wh-door-e", "floor_id": "f1" }
+      ],
+      "fire_facilities": [
+        { "resource_id": "fr-wh-01", "floor_id": "f1", "coords": { "x": 61, "y": 64 } },
+        { "resource_id": "fr-wh-02", "floor_id": "f1", "coords": { "x": 86, "y": 26 } }
+      ],
+      "risk_points": [
+        { "hazard_id": "hz-wh-01", "floor_id": "f1", "level": "high", "coords": { "x": 61, "y": 30 } },
+        { "hazard_id": "hz-wh-02", "floor_id": "f1", "level": "medium", "coords": { "x": 37, "y": 52 } }
+      ],
+      "routes": {
+        "nodes": [
+          { "ref": "bn-wh-door-w" },
+          { "ref": "bn-wh-door-e" },
+          { "ref": "bn-wh-aisle" },
+          { "ref": "bn-wh-idoor-raw" },
+          { "ref": "bn-wh-idoor-stacker" },
+          { "ref": "bn-wh-idoor-finished" },
+          { "id": "scn-wh-aisle-north", "kind": "corridor", "name": "消防通道北端点", "floor_id": "f1", "coords": { "x": 45, "y": 80 } },
+          { "id": "scn-wh-dock-in", "kind": "corridor", "name": "入库月台内点", "floor_id": "f1", "coords": { "x": 15, "y": 72 } }
+        ],
+        "edges": [
+          { "from": "bn-wh-door-w", "to": "bn-wh-aisle", "bidirectional": true },
+          { "from": "bn-wh-door-e", "to": "bn-wh-aisle", "bidirectional": true },
+          { "from": "bn-wh-aisle", "to": "bn-wh-idoor-raw", "bidirectional": true },
+          { "from": "bn-wh-aisle", "to": "bn-wh-idoor-stacker", "bidirectional": true },
+          { "from": "bn-wh-aisle", "to": "bn-wh-idoor-finished", "bidirectional": true },
+          { "from": "bn-wh-aisle", "to": "scn-wh-aisle-north", "bidirectional": true },
+          { "from": "bn-wh-door-w", "to": "scn-wh-dock-in", "bidirectional": true }
+        ]
+      }
+    }
+  ]
+}

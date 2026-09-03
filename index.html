@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="FireOps AI 工厂消防设备运维 Agent 平台" />
+    <title>FireOps AI｜工厂消防设备运维 Agent</title>
+    <link rel="icon" href="assets/fireops-logo.png" type="image/png" />
+    <link rel="stylesheet" href="styles.css?v=5.0" />
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "./assets/three.module.min.js",
+          "three/addons/": "./assets/"
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">跳到主要内容</a>
+
+    <header class="app-header">
+      <a class="brand" href="#/home" aria-label="FireOps AI 首页">
+        <img class="brand-shield" src="assets/fireops-logo.png" alt="" width="38" height="38" />
+        <span><strong>FireOps AI</strong><small>工厂消防设备运维 Agent</small></span>
+      </a>
+
+      <nav class="primary-nav" aria-label="产品导航">
+        <a href="#/home" data-top-nav="home" data-module="home">首页</a>
+        <a href="#/monitoring" data-top-nav="assets" data-module="assets">报警与空间</a>
+        <a href="#/incidents" data-top-nav="emergency" data-module="emergency">应急处置</a>
+        <a href="#/station?crew_id=crew-wb-01" data-top-nav="operations" data-module="operations">设施运维</a>
+        <a href="#/inspections" data-top-nav="prevention" data-module="prevention">日常防控</a>
+        <a href="#/analysis/ent-001" data-top-nav="analysis" data-module="analysis">分析复盘</a>
+      </nav>
+
+      <div class="header-meta">
+        <button class="judge-tour-launch" type="button" data-action="start-judge-tour"><i data-lucide="play"></i>评委模式</button>
+        <button class="header-import" type="button" data-action="import-data" hidden><i data-lucide="file-up"></i>数据导入</button>
+        <label class="account" for="demo-actor"><i data-lucide="circle-user-round"></i><span class="sr-only">当前演示角色</span><select id="demo-actor" aria-label="切换演示角色"><option value="company_management">公司管理层</option><option value="control_room_operator">消控室值班员</option><option value="fire_patrol">防火巡查人员</option><option value="full_time_fire_brigade">专职消防队</option><option value="workshop_ert">车间 ERT</option><option value="facility_department">消防设施部门</option><option value="maintenance_contractor">消防维保单位</option><option value="workshop_liaison">车间问题对接人</option></select><i data-lucide="shield-check"></i></label>
+      </div>
+    </header>
+
+    <main id="main-content" tabindex="-1">
+      <div id="app"></div>
+    </main>
+
+    <aside id="judge-tour" class="judge-tour" aria-live="polite" hidden></aside>
+    <div id="judge-tour-pointer" class="judge-tour-pointer" aria-hidden="true" hidden><span>演示操作</span></div>
+    <dialog id="judge-tour-summary" class="app-dialog judge-tour-summary" aria-labelledby="judge-tour-summary-title">
+      <div class="dialog-card">
+        <header><div><span>演示总结</span><h2 id="judge-tour-summary-title">三条业务链已经闭环</h2></div></header>
+        <p>评委模式只是把同一套产品自动演示一遍，不改变数据、权限和正常操作入口。</p>
+        <div class="judge-summary-grid">
+          <article><i data-lucide="siren"></i><div><strong>真实火警</strong><span>报警定位、人工核实、跨角色调派、对讲指挥、归档与战评连成一条线。</span></div></article>
+          <article><i data-lucide="wrench"></i><div><strong>误报与维保</strong><span>误报直接转故障工单，维保提交记录，设施部门复测验收后才能关闭。</span></div></article>
+          <article><i data-lucide="clipboard-check"></i><div><strong>巡查与整改</strong><span>巡查拍照派发，车间上传整改照片，巡查复查通过后才计入闭环。</span></div></article>
+        </div>
+        <footer><button type="button" class="dialog-secondary" data-judge-summary-action="restart">重新演示</button><button type="button" class="primary-action" data-judge-summary-action="exit">退出评委模式</button></footer>
+      </div>
+    </dialog>
+
+    <nav class="mobile-nav" aria-label="手机端主要导航">
+      <a href="#/home" data-mobile-nav="home" data-module="home"><i data-lucide="layout-grid"></i><span>首页</span></a>
+      <a href="#/incidents" data-mobile-nav="emergency" data-module="emergency"><i data-lucide="siren"></i><span>应急</span></a>
+      <a href="#/inspections" data-mobile-nav="prevention" data-module="prevention"><i data-lucide="clipboard-check"></i><span>防控</span></a>
+      <a href="#/station?crew_id=crew-wb-01" data-mobile-nav="operations" data-module="operations"><i data-lucide="wrench"></i><span>运维</span></a>
+      <a href="#/analysis/ent-001" data-mobile-nav="analysis" data-module="analysis"><i data-lucide="chart-no-axes-combined"></i><span>分析</span></a>
+      <a href="#/monitoring" data-mobile-nav="assets" data-module="assets"><i data-lucide="map"></i><span>空间</span></a>
+    </nav>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+    <dialog id="import-dialog" class="app-dialog">
+      <form method="dialog" class="dialog-card">
+        <header><div><span>DEMO DATA</span><h2>导入工厂消防数据包</h2></div><button value="cancel" aria-label="关闭"><i data-lucide="x"></i></button></header>
+        <p>请选择 `demo-data` 目录内的 5 个 CSV。系统会校验文件、字段、时间、企业归属和潜在公式，然后执行 FG-DEMO-v0 评分。</p>
+        <label class="file-drop" for="csv-files"><i data-lucide="files"></i><strong>选择 5 个 CSV 文件</strong><span>单文件不超过 1 MB，最多 500 行</span><input id="csv-files" type="file" accept=".csv,text/csv" multiple /></label>
+        <div id="import-file-list" class="import-file-list">尚未选择文件</div>
+        <div id="import-result" class="import-result" aria-live="polite"></div>
+        <footer><button value="cancel" class="dialog-secondary">取消</button><button id="run-import" value="default" type="button" class="primary-action" disabled>校验并评分</button></footer>
+      </form>
+    </dialog>
+
+    <dialog id="evidence-dialog" class="app-dialog evidence-dialog">
+      <div class="dialog-card">
+        <header><div><span>EVIDENCE</span><h2 id="evidence-title">隐患证据</h2></div><button type="button" data-dialog-close="evidence-dialog" aria-label="关闭"><i data-lucide="x"></i></button></header>
+        <img id="evidence-image" alt="" />
+        <p id="evidence-caption"></p>
+      </div>
+    </dialog>
+
+    <dialog id="workflow-dialog" class="app-dialog workflow-dialog">
+      <div class="dialog-card">
+        <header><div><span>RECTIFICATION</span><h2 id="workflow-title">隐患闭环时间线</h2></div><button type="button" data-dialog-close="workflow-dialog" aria-label="关闭"><i data-lucide="x"></i></button></header>
+        <div id="workflow-summary" class="workflow-summary"></div>
+        <ol id="workflow-timeline" class="workflow-timeline"></ol>
+        <footer><button type="button" data-dialog-close="workflow-dialog" class="dialog-secondary">关闭</button><button id="start-reinspection" type="button" class="primary-action">发起专项复查</button></footer>
+      </div>
+    </dialog>
+
+    <dialog id="run-record-dialog" class="app-dialog run-record-dialog" aria-labelledby="run-record-title">
+      <div class="dialog-card">
+        <header><div><span>COPILOT RUN RECORD</span><h2 id="run-record-title">运行记录</h2></div><button type="button" data-dialog-close="run-record-dialog" aria-label="关闭"><i data-lucide="x"></i></button></header>
+        <div id="run-record-content"></div>
+        <footer><button type="button" class="dialog-secondary" id="run-record-download">下载原始 JSON</button><button type="button" class="primary-action" data-dialog-close="run-record-dialog">完成</button></footer>
+      </div>
+    </dialog>
+
+    <dialog id="inspect-capture-dialog" class="app-dialog inspect-capture-dialog">
+      <form method="dialog" class="dialog-card" id="inspect-capture-form">
+        <header>
+          <div><span>INSPECT AGENT</span><h2>拍照识别 · 语音辅助 · 派发整改</h2></div>
+          <button type="button" data-dialog-close="inspect-capture-dialog" aria-label="关闭"><i data-lucide="x"></i></button>
+        </header>
+        <p class="inspect-capture-hint">选择演示现场照片（或模拟拍照），口述补充后由 Agent 生成隐患草稿；派发给车间问题对接人须人工确认。演示级规则识别，不调用真实视觉/ASR 云服务。</p>
+        <div class="inspect-asset-grid" id="inspect-asset-grid" role="listbox" aria-label="演示证据照片"></div>
+        <label class="inspect-voice-label" for="inspect-voice-text">语音 / 口述备注</label>
+        <textarea id="inspect-voice-text" rows="3" maxlength="500" placeholder="例如：PACK 通道东侧灭火器被物料箱挡住了，请车间问题对接人处理"></textarea>
+        <div class="inspect-voice-actions">
+          <button type="button" class="secondary-action" id="inspect-voice-btn"><i data-lucide="mic"></i>语音输入（浏览器）</button>
+          <button type="button" class="secondary-action" id="inspect-analyze-btn"><i data-lucide="scan-search"></i>识别隐患草稿</button>
+        </div>
+        <div id="inspect-draft-panel" class="inspect-draft-panel" hidden></div>
+        <footer>
+          <button type="button" class="dialog-secondary" data-dialog-close="inspect-capture-dialog">取消</button>
+          <button type="button" class="primary-action" id="inspect-dispatch-btn" disabled><i data-lucide="send"></i>确认派发车间对接人</button>
+        </footer>
+      </form>
+    </dialog>
+
+    <script src="assets/lucide.min.js"></script>
+    <script src="engine.cjs?v=1.5"></script>
+    <script src="app.js?v=8.3"></script>
+    <script type="module" src="monitoring-3d.js?v=2.2"></script>
+  </body>
+</html>
